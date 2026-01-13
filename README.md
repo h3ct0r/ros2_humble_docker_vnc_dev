@@ -38,3 +38,14 @@ For a complete tutorial on how to use this repo using devcontainers VScode check
 ### Build only
 
 `BUILDKIT_PROGRESS=plain docker compose -f compose_macos.yaml build`
+
+### Access to services
+
+Once the container is up, the you can access the services via:
+
+- VNC: http://localhost:3080
+- VScode: http://localhost:3081
+- SSH: `ssh ubuntu@localhost -p 3022`
+  - user: `ubuntu`
+  - pass: `ubuntu`
+ 
