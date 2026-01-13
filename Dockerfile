@@ -72,17 +72,12 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
-# Setup VNC directories and configuration
+# Setup VNC directories, configuration, and startup script
 RUN mkdir -p /home/$USERNAME/.vnc \
-    && chown -R $USERNAME:$USERNAME /home/$USERNAME/.vnc
-
-# Configure VNC password (can be customized via build arg)
-RUN echo "$VNC_PASSWORD" | vncpasswd -f > /home/$USERNAME/.vnc/passwd \
+    && chown -R $USERNAME:$USERNAME /home/$USERNAME/.vnc \
+    && echo "$VNC_PASSWORD" | vncpasswd -f > /home/$USERNAME/.vnc/passwd \
     && chmod 600 /home/$USERNAME/.vnc/passwd \
-    && chown $USERNAME:$USERNAME /home/$USERNAME/.vnc/passwd
-
-# Create VNC startup script
-RUN mkdir -p /home/$USERNAME/.vnc \
+    && chown $USERNAME:$USERNAME /home/$USERNAME/.vnc/passwd \
     && echo '#!/bin/bash' > /home/$USERNAME/.vnc/xstartup \
     && echo 'unset SESSION_MANAGER' >> /home/$USERNAME/.vnc/xstartup \
     && echo 'unset DBUS_SESSION_BUS_ADDRESS' >> /home/$USERNAME/.vnc/xstartup \
