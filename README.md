@@ -1,6 +1,6 @@
 # ROS2 Humble Docker VNC Development Environment
 
-The sources of the base ROS2 Humble Docker image for development with devcontainers. This image has a lot of things installed, including VNC and Code server, and makes it easy to develop locally or on the robot.
+A complete ROS2 Humble Docker image for development with devcontainers. This image includes VNC server, Code Server (VS Code in browser), XFCE desktop, and comprehensive ROS2 development tools, making it easy to develop locally or on the robot.
 
 ## Features
 
@@ -205,7 +205,8 @@ source install/setup.bash
 
 1. **Default Passwords**: The default VNC password is `vncpassword` and code-server password is `codeserver`. These should be changed for production use via build arguments.
 
-2. **Network Exposure**: By default, services are exposed on all interfaces (0.0.0.0). For production:
+2. **Network Exposure**: By default, services are exposed on all interfaces (0.0.0.0) to support remote access. For production:
+   - Use SSH tunneling (recommended): `ssh -L 5901:localhost:5901 -L 6080:localhost:6080 -L 8080:localhost:8080 user@host`
    - Use a reverse proxy with HTTPS
    - Restrict access with firewall rules
    - Consider VPN access for remote connections
