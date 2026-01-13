@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  ros2-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USERNAME: ros
+        USER_UID: 1000
+        USER_GID: 1000
+    container_name: ros2-humble-dev
+    hostname: ros2-humble-dev
+    privileged: true
+    network_mode: host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - ./ros2_ws:/home/ros/ros2_ws
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev:/dev
+    ports:
+      - "5901:5901"  # VNC
+      - "6080:6080"  # noVNC
+      - "8080:8080"  # code-server
+    stdin_open: true
+    tty: true
+    restart: unless-stopped

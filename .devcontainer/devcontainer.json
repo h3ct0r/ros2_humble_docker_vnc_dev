@@ -1,0 +1,77 @@
+{
+    "name": "ROS2 Humble Development",
+    "dockerFile": "../Dockerfile",
+    "build": {
+        "args": {
+            "USERNAME": "ros",
+            "USER_UID": "1000",
+            "USER_GID": "1000"
+        }
+    },
+    "remoteUser": "ros",
+    "workspaceFolder": "/home/ros/ros2_ws",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/ros/ros2_ws,type=bind,consistency=cached",
+    
+    "runArgs": [
+        "--network=host",
+        "--cap-add=SYS_PTRACE",
+        "--security-opt=seccomp=unconfined",
+        "--security-opt=apparmor=unconfined",
+        "--privileged"
+    ],
+
+    "mounts": [
+        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached"
+    ],
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-vscode.cpptools",
+                "ms-vscode.cmake-tools",
+                "twxs.cmake",
+                "ms-iot.vscode-ros",
+                "ms-vscode.makefile-tools",
+                "ms-azuretools.vscode-docker"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/bin/python3",
+                "python.linting.enabled": true,
+                "python.linting.pylintEnabled": true,
+                "python.formatting.provider": "autopep8",
+                "editor.formatOnSave": true,
+                "files.trimTrailingWhitespace": true,
+                "terminal.integrated.defaultProfile.linux": "bash"
+            }
+        }
+    },
+
+    "forwardPorts": [5901, 6080, 8080],
+    "portsAttributes": {
+        "5901": {
+            "label": "VNC",
+            "onAutoForward": "notify"
+        },
+        "6080": {
+            "label": "noVNC (Browser VNC)",
+            "onAutoForward": "openBrowser"
+        },
+        "8080": {
+            "label": "Code Server",
+            "onAutoForward": "notify"
+        }
+    },
+
+    "postCreateCommand": "sudo rosdep update",
+    "postStartCommand": "source /opt/ros/humble/setup.bash",
+
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/github-cli:1": {
+            "version": "latest"
+        }
+    }
+}
