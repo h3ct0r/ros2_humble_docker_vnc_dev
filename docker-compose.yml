@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  ros2-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USERNAME: ros
+        USER_UID: 1000
+        USER_GID: 1000
+        # VNC_PASSWORD: custom_vnc_password  # Uncomment to set custom VNC password
+        # CODE_SERVER_PASSWORD: custom_code_password  # Uncomment to set custom code-server password
+    container_name: ros2-humble-dev
+    hostname: ros2-humble-dev
+    # Note: privileged mode is used for hardware access (cameras, sensors, etc.)
+    # For basic development without hardware, you can remove this and use specific capabilities
+    privileged: true
+    # Uncomment below and remove privileged: true if you don't need hardware access
+    # cap_add:
+    #   - SYS_PTRACE
+    network_mode: host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - ./ros2_ws:/home/ros/ros2_ws
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev:/dev
+    ports:
+      - "5901:5901"  # VNC
+      - "6080:6080"  # noVNC
+      - "8080:8080"  # code-server
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
