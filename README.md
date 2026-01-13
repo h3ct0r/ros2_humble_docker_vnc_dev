@@ -5,13 +5,14 @@ The sources of the base ROS2 Humble Docker image for development with devcontain
 ## Features
 
 - 🤖 **ROS2 Humble Desktop Full** - Complete ROS2 Humble installation with all desktop packages
-- 🖥️ **VNC Server** - Remote desktop access via TigerVNC
+- 🖥️ **VNC Server** - Remote desktop access via TigerVNC with password authentication
 - 🌐 **noVNC** - Browser-based VNC client (no client installation needed)
 - 💻 **Code Server** - VS Code in the browser for remote development
 - 🎨 **XFCE Desktop** - Lightweight desktop environment
 - 🛠️ **Development Tools** - GDB, CMake, Python tools, and more
 - 📦 **VS Code Extensions** - Pre-installed extensions for ROS2, Python, C++, and CMake
 - 🔐 **Non-root User** - Runs as `ros` user for better security
+- 🔒 **Configurable Passwords** - VNC and Code Server passwords can be set at build time
 
 ## Quick Start
 
@@ -95,12 +96,41 @@ docker exec -it ros2-humble-dev bash
 
 ## Configuration
 
+### Security Settings
+
+The default passwords are set for development convenience, but should be changed for production use:
+
+**Default Credentials:**
+- VNC Password: `vncpassword`
+- Code Server Password: `codeserver`
+
+### Changing Passwords During Build
+
+You can set custom passwords as build arguments:
+
+```bash
+docker build \
+  --build-arg VNC_PASSWORD=your_secure_vnc_password \
+  --build-arg CODE_SERVER_PASSWORD=your_secure_code_password \
+  -t ros2-humble-dev .
+```
+
+Or in docker-compose.yml:
+```yaml
+build:
+  args:
+    VNC_PASSWORD: your_secure_vnc_password
+    CODE_SERVER_PASSWORD: your_secure_code_password
+```
+
 ### Changing VNC Password
 
 Edit the Dockerfile and rebuild:
 ```dockerfile
 RUN echo "your-new-password" | vncpasswd -f > /home/$USERNAME/.vnc/passwd
 ```
+
+Or use build arguments as shown above.
 
 ### Changing Code Server Password
 
@@ -111,6 +141,8 @@ auth: password
 password: your-new-password
 cert: false
 ```
+
+Or use build arguments as shown above.
 
 ### Customizing VS Code Extensions
 
@@ -166,6 +198,30 @@ source install/setup.bash
 - `DISPLAY`: X11 display (default: `:1`)
 - `ROS_DOMAIN_ID`: ROS2 domain ID
 - `ROS_LOCALHOST_ONLY`: Restrict ROS2 to localhost (0 or 1)
+
+## Security Considerations
+
+⚠️ **Important Security Notes:**
+
+1. **Default Passwords**: The default VNC password is `vncpassword` and code-server password is `codeserver`. These should be changed for production use via build arguments.
+
+2. **Network Exposure**: By default, services are exposed on all interfaces (0.0.0.0). For production:
+   - Use a reverse proxy with HTTPS
+   - Restrict access with firewall rules
+   - Consider VPN access for remote connections
+
+3. **Privileged Mode**: The docker-compose configuration uses privileged mode for hardware access. For basic development without hardware:
+   - Remove `privileged: true` 
+   - Use specific capabilities like `SYS_PTRACE` if needed
+
+4. **VNC Security**: VNC uses password authentication. For additional security:
+   - Use SSH tunneling: `ssh -L 5901:localhost:5901 user@host`
+   - Access via: `localhost:5901` on your local machine
+
+Example SSH tunnel for all services:
+```bash
+ssh -L 5901:localhost:5901 -L 6080:localhost:6080 -L 8080:localhost:8080 user@robot
+```
 
 ## Troubleshooting
 

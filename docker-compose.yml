@@ -9,9 +9,16 @@ services:
         USERNAME: ros
         USER_UID: 1000
         USER_GID: 1000
+        # VNC_PASSWORD: custom_vnc_password  # Uncomment to set custom VNC password
+        # CODE_SERVER_PASSWORD: custom_code_password  # Uncomment to set custom code-server password
     container_name: ros2-humble-dev
     hostname: ros2-humble-dev
+    # Note: privileged mode is used for hardware access (cameras, sensors, etc.)
+    # For basic development without hardware, you can remove this and use specific capabilities
     privileged: true
+    # Uncomment below and remove privileged: true if you don't need hardware access
+    # cap_add:
+    #   - SYS_PTRACE
     network_mode: host
     environment:
       - DISPLAY=${DISPLAY}

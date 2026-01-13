@@ -51,6 +51,10 @@ RUN apt-get update && apt-get install -y \
 ARG CODE_SERVER_VERSION=4.20.0
 RUN curl -fsSL https://code-server.dev/install.sh | sh -s -- --version=${CODE_SERVER_VERSION}
 
+# VNC and Code Server password arguments
+ARG VNC_PASSWORD=vncpassword
+ARG CODE_SERVER_PASSWORD=codeserver
+
 # Install VS Code extensions for ROS2 development
 RUN code-server --install-extension ms-python.python \
     && code-server --install-extension ms-vscode.cpptools \
@@ -72,8 +76,8 @@ RUN groupadd --gid $USER_GID $USERNAME \
 RUN mkdir -p /home/$USERNAME/.vnc \
     && chown -R $USERNAME:$USERNAME /home/$USERNAME/.vnc
 
-# Configure VNC password (default: vncpassword)
-RUN echo "vncpassword" | vncpasswd -f > /home/$USERNAME/.vnc/passwd \
+# Configure VNC password (can be customized via build arg)
+RUN echo "$VNC_PASSWORD" | vncpasswd -f > /home/$USERNAME/.vnc/passwd \
     && chmod 600 /home/$USERNAME/.vnc/passwd \
     && chown $USERNAME:$USERNAME /home/$USERNAME/.vnc/passwd
 
@@ -93,7 +97,7 @@ RUN mkdir -p /home/$USERNAME/.config/code-server \
 # Create code-server config
 RUN echo "bind-addr: 0.0.0.0:8080" > /home/$USERNAME/.config/code-server/config.yaml \
     && echo "auth: password" >> /home/$USERNAME/.config/code-server/config.yaml \
-    && echo "password: codeserver" >> /home/$USERNAME/.config/code-server/config.yaml \
+    && echo "password: $CODE_SERVER_PASSWORD" >> /home/$USERNAME/.config/code-server/config.yaml \
     && echo "cert: false" >> /home/$USERNAME/.config/code-server/config.yaml \
     && chown $USERNAME:$USERNAME /home/$USERNAME/.config/code-server/config.yaml
 
