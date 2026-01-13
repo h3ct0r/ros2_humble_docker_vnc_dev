@@ -1,6 +1,6 @@
 {
     "name": "ROS2 Humble Development",
-    "dockerFile": "../Dockerfile",
+    "dockerfile": "../Dockerfile",
     "build": {
         "args": {
             "USERNAME": "ros",

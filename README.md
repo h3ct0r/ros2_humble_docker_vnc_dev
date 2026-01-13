@@ -278,10 +278,6 @@ docker build \
   -t ros2-humble-dev:custom .
 ```
 
-## License
-
-This project is provided as-is for ROS2 development purposes.
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit issues or pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
@@ -289,6 +285,8 @@ Contributions are welcome! Please feel free to submit issues or pull requests. S
 ## License
 
 This project is provided as-is for ROS2 development purposes. See [LICENSE](LICENSE) for details.
+
+## Credits
 
 - Built on [osrf/ros:humble-desktop-full](https://hub.docker.com/r/osrf/ros)
 - Uses [code-server](https://github.com/coder/code-server) for browser-based VS Code
