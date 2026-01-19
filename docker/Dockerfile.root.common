@@ -63,6 +63,7 @@ RUN apt-get update && apt-get install -y \
     python3-rosdep \
     python3-vcstool \
     python3-argcomplete \
+	python3-venv \
     python3-colcon-common-extensions \
     ros-humble-desktop \
     "ros-humble-rqt*" \
