@@ -8,6 +8,9 @@ services:
       dockerfile: docker/Dockerfile.amd64
       tags:
         - "h3ct0rdcc/ros2_humble_development:amd64"
+    hostname: ros2_docker
+    extra_hosts:
+      - "ros2_docker:127.0.0.1"
     ipc: host
     pid: host
     privileged: true
