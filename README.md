@@ -35,9 +35,11 @@ For a complete tutorial on how to use this repo using devcontainers VScode check
 `BUILDKIT_PROGRESS=plain` helps to visualize step by step output of each of the commands.
 </details>
 
-### Build only
+### Build and Push
 
 `BUILDKIT_PROGRESS=plain docker compose -f compose_macos.yaml build`
+`docker image push h3ct0rdcc/ros2_humble_development:amd64`
+`docker image push h3ct0rdcc/ros2_humble_development:latest`
 
 ### Access to services
 
