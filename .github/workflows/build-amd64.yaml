@@ -4,7 +4,12 @@ on:
   push:
     branches:
       - main
-
+    paths:
+      - "configs"
+      - "docker"
+      - "local_mount"
+      - "third_party_pkgs"
+      
 jobs:
   build-and-test:
     runs-on: self-hosted
@@ -86,4 +91,5 @@ jobs:
           docker image push h3ct0rdcc/ros2_humble_development:latest
 
       - name: remove unused images
-        run: docker system prune -a -f
+        run: |
+          docker system prune -a -f
