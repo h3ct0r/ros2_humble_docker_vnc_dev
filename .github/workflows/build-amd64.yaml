@@ -79,3 +79,9 @@ jobs:
 
       - name: Stop and remove containers
         run: docker compose -f compose_linux.yaml down
+
+      - name: push image
+        run: docker image push h3ct0rdcc/ros2_humble_development:latest
+
+      - name: remove unused images
+        run: docker system prune -a -f
