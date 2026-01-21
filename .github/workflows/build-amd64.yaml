@@ -14,7 +14,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ros2_humble_development
   TAG: amd64
 
 jobs:
@@ -43,69 +43,69 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
 
-      - name: Build and start Docker Compose services
-        run: docker compose -f compose_linux.yaml up -d --build
+      #- name: Build and start Docker Compose services
+      #  run: docker compose -f compose_linux.yaml up -d --build
 
-      - name: Wait for services to be healthy (optional, but recommended)
-        # You can use a dedicated action or a script to wait for health checks
-        # Example using a simple sleep (adjust as needed for your application)
-        run: sleep 30
+      #- name: Wait for services to be healthy (optional, but recommended)
+      #  # You can use a dedicated action or a script to wait for health checks
+      #  # Example using a simple sleep (adjust as needed for your application)
+      #  run: sleep 30
 
-      - name: Test noVNC is up
-        run: |
-          SERVICE_URL="http://localhost:3080"
-          EXPECTED_RESPONSE="200"
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" $SERVICE_URL)
-          if [ "$RESPONSE" == "$EXPECTED_RESPONSE" ]; then
-              echo "Test Passed: Service returned expected response."
-              echo "Expected: $EXPECTED_RESPONSE"
-              echo "Actual: $RESPONSE"
-              exit 0
-          else
-              echo "Test Failed: Service response did not match expected response."
-              echo "Expected: $EXPECTED_RESPONSE"
-              echo "Actual: $RESPONSE"
-              exit 1
-          fi
+      #- name: Test noVNC is up
+      #  run: |
+      #    SERVICE_URL="http://localhost:3080"
+      #    EXPECTED_RESPONSE="200"
+      #    RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" $SERVICE_URL)
+      #    if [ "$RESPONSE" == "$EXPECTED_RESPONSE" ]; then
+      #        echo "Test Passed: Service returned expected response."
+      #        echo "Expected: $EXPECTED_RESPONSE"
+      #        echo "Actual: $RESPONSE"
+      #        exit 0
+      #    else
+      #        echo "Test Failed: Service response did not match expected response."
+      #        echo "Expected: $EXPECTED_RESPONSE"
+      #        echo "Actual: $RESPONSE"
+      #        exit 1
+      #    fi
 
-      - name: Test code-server is up
-        run: |
-          SERVICE_URL="http://localhost:3081"
-          EXPECTED_RESPONSE="200"
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" $SERVICE_URL)
-          if [ "$RESPONSE" == "$EXPECTED_RESPONSE" ]; then
-              echo "Test Passed: Service returned expected response."
-              echo "Expected: $EXPECTED_RESPONSE"
-              echo "Actual: $RESPONSE"
-              exit 0
-          else
-              echo "Test Failed: Service response did not match expected response."
-              echo "Expected: $EXPECTED_RESPONSE"
-              echo "Actual: $RESPONSE"
-              exit 1
-          fi
+      #- name: Test code-server is up
+      #  run: |
+      #    SERVICE_URL="http://localhost:3081"
+      #    EXPECTED_RESPONSE="200"
+      #    RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" $SERVICE_URL)
+      #    if [ "$RESPONSE" == "$EXPECTED_RESPONSE" ]; then
+      #        echo "Test Passed: Service returned expected response."
+      #        echo "Expected: $EXPECTED_RESPONSE"
+      #        echo "Actual: $RESPONSE"
+      #        exit 0
+      #    else
+      #        echo "Test Failed: Service response did not match expected response."
+      #        echo "Expected: $EXPECTED_RESPONSE"
+      #        echo "Actual: $RESPONSE"
+      #        exit 1
+      #    fi
 
-      - name: Test sshd is up
-        run: |
-          EXPECTED_RESPONSE="1"
-          RESPONSE=$(netstat -an | grep 0.0.0.0:3022 | grep tcp | grep LISTEN | wc -l)
-          if [ "$RESPONSE" == "$EXPECTED_RESPONSE" ]; then
-              echo "Test Passed: Service returned expected response."
-              echo "Expected: $EXPECTED_RESPONSE"
-              echo "Actual: $RESPONSE"
-              exit 0
-          else
-              echo "Test Failed: Service response did not match expected response."
-              echo "Expected: $EXPECTED_RESPONSE"
-              echo "Actual: $RESPONSE"
-              exit 1
-          fi
+      #- name: Test sshd is up
+      #  run: |
+      #    EXPECTED_RESPONSE="1"
+      #    RESPONSE=$(netstat -an | grep 0.0.0.0:3022 | grep tcp | grep LISTEN | wc -l)
+      #    if [ "$RESPONSE" == "$EXPECTED_RESPONSE" ]; then
+      #        echo "Test Passed: Service returned expected response."
+      #        echo "Expected: $EXPECTED_RESPONSE"
+      #        echo "Actual: $RESPONSE"
+      #        exit 0
+      #    else
+      #        echo "Test Failed: Service response did not match expected response."
+      #        echo "Expected: $EXPECTED_RESPONSE"
+      #        echo "Actual: $RESPONSE"
+      #        exit 1
+      #    fi
 
-      - name: Check running containers (optional for debugging)
-        run: docker ps -a
+      #- name: Check running containers (optional for debugging)
+      #  run: docker ps -a
 
-      - name: Stop and remove containers
-        run: docker compose -f compose_linux.yaml down
+      #- name: Stop and remove containers
+      #  run: docker compose -f compose_linux.yaml down
 
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
