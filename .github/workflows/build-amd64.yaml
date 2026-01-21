@@ -14,7 +14,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ros2_humble_development
+  IMAGE_NAME: ${{ github.repository }}
   TAG: amd64
 
 jobs:
