@@ -9,10 +9,11 @@ on:
       - "docker"
       - "local_mount"
       - "third_party_pkgs"
-      
+
 jobs:
   build-and-test:
-    runs-on: self-hosted
+    #runs-on: self-hosted
+    runs-on: ubuntu-latest
     services:
       docker:
         image: docker:20.10.9
@@ -27,7 +28,7 @@ jobs:
       - name: Wait for services to be healthy (optional, but recommended)
         # You can use a dedicated action or a script to wait for health checks
         # Example using a simple sleep (adjust as needed for your application)
-        run: sleep 30 
+        run: sleep 30
 
       - name: Test noVNC is up
         run: |
