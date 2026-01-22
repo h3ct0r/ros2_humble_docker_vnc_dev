@@ -118,7 +118,7 @@ RUN unzip -o /tmp/livox_sdk_v1.2.5.zip -d /tmp/livox_sdk_src && \
     mkdir build && \
     cd build && \
     cmake .. && \
-    make -j && \
+    make -j 4 && \
     make install
 
 # nav2 requeriments
