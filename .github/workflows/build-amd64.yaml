@@ -14,7 +14,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: h3ct0rdcc/ros2_humble_development
+  IMAGE_NAME: ${{ github.repository }}/ros2_humble_development
   TAG: amd64
 
 jobs:
@@ -114,8 +114,8 @@ jobs:
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
         with:
           registry: ${{ env.REGISTRY }}
-          username: h3ct0rdcc
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract Docker metadata
         id: meta
