@@ -1,4 +1,10 @@
 # ros2_humble_docker_vnc_dev
+
+> [!IMPORTANT]
+> **Moved to [h3ct0r/ros2_devcontainer_docker_compose](https://github.com/h3ct0r/ros2_devcontainer_docker_compose).** That repo builds Humble, Jazzy and Lyrical from one Dockerfile and holds the devcontainers and this repo's history. This one is archived.
+>
+> New images: `h3ct0rdcc/ros2_dev:<distro>-<target>`, e.g. `humble-desktop`. The old `h3ct0rdcc/ros2_humble_development` tags keep being updated from the new repo until Humble's end of life (May 2027).
+
 The sources of the base ROS2 Humble Docker image for development with devcontainers. It covers local development and testing on the robot: VNC and code-server in the browser, SSH, Zenoh, and rootless Docker support.
 
 <details>
